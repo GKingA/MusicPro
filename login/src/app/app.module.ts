@@ -17,8 +17,8 @@ import { ServiceModule } from './service/service.module';
   declarations: [
     AppComponent,
     LoginComponent,
-    UserComponent,
-	ServiceModule
+    UserComponent//,
+	//ServiceModule
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ServiceModule } from '../service/service.module';
+//import { ServiceModule } from '../service/service.module';
 
 
 @Component({
@@ -10,16 +10,17 @@ import { ServiceModule } from '../service/service.module';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private serviceModule: ServiceModule) {}
-  //constructor(private http: Http)
 
+  //constructor(private serviceModule: ServiceModule) {}
+  //constructor(private http: Http)
+constructor() {}
 
   ngOnInit() {
   }
   
   
-  login() : void {
-    this.serviceModule.add('{"username": "q1wu0kepr1y8rn2qxqa4p81c5?si=WWhbZ44eSyWsqgpyT6AstQ"}')
-  }
+//  login() : void {
+//    this.serviceModule.add('{"username": "q1wu0kepr1y8rn2qxqa4p81c5?si=WWhbZ44eSyWsqgpyT6AstQ"}')
+//  }
  
 }
