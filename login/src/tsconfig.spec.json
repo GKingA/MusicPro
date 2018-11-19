@@ -5,7 +5,12 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+	"baseUrl": ".",
+    "paths": {
+      "handlebars": ["handlebars/dist/handlebars.min.js"]
+     }
+	
   },
   "files": [
     "test.ts",
