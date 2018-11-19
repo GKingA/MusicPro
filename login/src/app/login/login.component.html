@@ -1,0 +1,58 @@
+<mat-toolbar color="primary">
+</mat-toolbar>
+
+ <mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>
+  
+  <mat-card class="example-card" [style.backgroundColor]="'black'">
+
+ <img class="img-responsive" src='assets/musicpro_logo_wo_background.png' alt="image" >
+
+ <p  align="center" color="green">
+ We know what you want to listen
+ </p>
+</mat-card>
+  
+  </mat-grid-tile>
+  <mat-grid-tile>
+  
+   <mat-card class="example-card">
+   <mat-card-header>
+     <mat-card-title>Log in with your Spotify account</mat-card-title>
+   </mat-card-header>
+   <mat-card-content>
+     <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+   </mat-card-content>
+   <mat-card-actions align="center">
+   <div class="container">
+     <button mat-raised-button  (click)="login()" class="btn btn-primary" id="btn-login" color="primary">Login</button>
+	 <div id="result"></div>
+	</div>
+
+   </mat-card-actions>
+ </mat-card>
+  
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+	<script id="resulttemplate" type="text/x-handlebars-template">
+		<dl>
+		  <img src="{{images.0.url}}">
+		  <dt>User Name</dt>
+		  <dd>{{id}}</dd>
+		  <dt>Display Name</dt>
+		  <dd>{{display_name}}</dd>
+		  <dt>Country</dt>
+		  <dd>{{country}}</dd>
+		  <dt>Followers</dt>
+		  <dd>{{followers.total}}</dd>
+		  <dt>Profile</dt>
+		  <dd><a href="{{external_urls.spotify}}" target="_blank">{{external_urls.spotify}}</a></dd>
+		  <dt>Email</dt>
+		  <dd>{{email}}</dd>
+		  <dt>Product</dt>
+		  <dd>{{product}}</dd>
+		</dl>
+	</script>
+

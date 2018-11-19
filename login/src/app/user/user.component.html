@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+	<span class="title-center">Welcome to MusicPro</span>
+	Spotify&nbsp;<mat-slide-toggle> MusicBrainz</mat-slide-toggle>
+</mat-toolbar>
+
+<mat-grid-list cols="2" rowHeight="8:1" [style.backgroundColor]="'black'">
+  <mat-grid-tile></mat-grid-tile>
+  <mat-grid-tile>
+	<form class="example-form">
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Search for a song" align="left" type="search" style="font-size:14pt;color:white;">
+		</mat-form-field>
+	</form>
+	&nbsp;&nbsp;&nbsp;<button mat-raised-button color="primary"  align="right-side">Search</button>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+
+<mat-grid-list cols="3" rowHeight="2:1" [style.backgroundColor]="'black'">
+  <mat-grid-tile>
+		<mat-card class="example-card">
+		<mat-card-header>
+			<mat-card-title>My Playlists</mat-card-title>
+		</mat-card-header>
+		<mat-card-actions>
+				<mat-list>
+				  <mat-list-item>Item 1</mat-list-item>
+				  <mat-divider></mat-divider>
+				  <mat-list-item>Item 2</mat-list-item>
+				  <mat-divider></mat-divider>
+				  <mat-list-item>Item 3</mat-list-item>
+				</mat-list>
+		 </mat-card-actions>
+		</mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+  <mat-grid-tile>5</mat-grid-tile>
+</mat-grid-list>
+
