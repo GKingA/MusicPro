@@ -9,9 +9,11 @@ import os
 import spotipy.oauth2 as oauth2
 
 import spotipy
-import spotipy.util as util
+#import spotipy.util as util
 from spotify_current_user_methods import current_user_playlist_create, current_user_playlist_tracks, \
     current_user_playlist_add_tracks
+
+from spotify_authentication import prompt_for_user_token
 
 scope = "user-read-private playlist-read-private playlist-modify-public playlist-modify-private"
 
@@ -22,10 +24,11 @@ app = Flask(__name__)
 def login():
     global token
     session['username'] = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
-    token = util.prompt_for_user_token(
+    url = prompt_for_user_token(
         username=session['username'],
         scope=scope
     )
+    return redirect(url, code=302)
 
 
 @app.route("/home")

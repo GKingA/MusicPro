@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import * as $ from 'jquery';
 import {Http, HttpModule} from '@angular/http';
 import { NgModule } from '@angular/core';
@@ -29,7 +30,6 @@ export class LoginComponent implements OnInit {
 	//constructor(private http: Http){this.http.get('http://localhost:5000/login');}
 
   ngOnInit() {
-	  
   }
 
 }
@@ -54,7 +54,7 @@ $(function() {
         var url = getLoginURL([
             'user-read-email'
         ]);
-        
+
         var width = 450,
             height = 730,
             left = (screen.width / 2) - (width / 2),
@@ -69,10 +69,7 @@ $(function() {
 		
 		
         
-        var w = window.open(url,
-                            'Spotify',
-                            'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
-                           );
+        location.href = "http://localhost:5000/login";
         
     }
 
@@ -101,6 +98,7 @@ $(function() {
                     resultsPlaceholder.innerHTML = template(response);
                 });
             });
+        
     });
 	/////this.router.navigate(["user"]);////
 })
