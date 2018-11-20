@@ -1,6 +1,8 @@
 .title-center {
   flex: 1 1 auto;
-
+  align:center;
+  padding-left:4%
+  
 }
 
 .w3-container{
@@ -45,4 +47,8 @@
 	background-color: black;
 	text-align: center;
 	height: 80%
+}
+
+.title-playlist{
+	align: center;
 }

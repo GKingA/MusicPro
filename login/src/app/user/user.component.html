@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-	<span class="title-center">Welcome to MusicPro</span>
+	<span class="title-center">MusicPro</span>
 	Spotify&nbsp;<mat-slide-toggle> MusicBrainz</mat-slide-toggle>
 </mat-toolbar>
 
@@ -8,7 +8,7 @@
 
 		<mat-card class="example-card">
 		<mat-card-header>
-			<mat-card-title>My Playlists</mat-card-title>
+			<mat-card-title class="title-playlist">Your Playlists</mat-card-title>
 		</mat-card-header>
 		<mat-card-actions>
 				<mat-list>
@@ -25,9 +25,9 @@
 <mat-card class="search-card">
 	<form class="example-form">
 		<mat-form-field class="example-full-width">
-			<input matInput style="width:800px !important" placeholder="Search for a song" type="search" style="font-size:14pt;color:white;">
+			<input matInput id="searchInput" style="width:800px !important" placeholder="Search for a song" type="text" style="font-size:14pt;color:white;">
 		</mat-form-field>
-		&nbsp;&nbsp;&nbsp;<button mat-raised-button color="primary"  align="right-side">Search</button>
+		&nbsp;&nbsp;&nbsp;<button mat-raised-button id="searchButton" color="primary"  align="right-side">Search</button>
 
 	</form>
 	
