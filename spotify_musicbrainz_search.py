@@ -18,8 +18,11 @@ def compare_dates(first, second):
 
 
 def compare_artists(spotify_artist, music_brainz_artist):
-    genre_score = len(set(spotify_artist['genres']) & set([name['name'] for name in music_brainz_artist['tags']])) \
-                  / len(spotify_artist['genres'])
+    if 'tags' in music_brainz_artist:
+        genre_score = len(set(spotify_artist['genres']) & set([name['name'] for name in music_brainz_artist['tags']])) \
+                     / len(spotify_artist['genres'])
+    else:
+        genre_score = 0.0
     name_score = compare_strings(spotify_artist['name'], music_brainz_artist['name']) / len(spotify_artist['name'])
     return 0.8 * name_score + 0.2 * genre_score
 

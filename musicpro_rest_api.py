@@ -1,25 +1,50 @@
-from flask import Flask, request
+import random
+import string
+
+from flask import Flask, request, session, redirect
 import json
+
 from spotify_musicbrainz_search import search_artist, search_album, search_song, search_work, search
+import os
+import spotipy.oauth2 as oauth2
 
 import spotipy
 import spotipy.util as util
+from spotify_current_user_methods import current_user_playlist_create, current_user_playlist_tracks, \
+    current_user_playlist_add_tracks
 
 scope = "user-read-private playlist-read-private playlist-modify-public playlist-modify-private"
 
 app = Flask(__name__)
 
 
-@app.route("/home", methods=['POST'])
-def init():
-    username = request.json['username']
+@app.route("/login")
+def login():
+    global token
+    session['username'] = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
     token = util.prompt_for_user_token(
-        username=username,
+        username=session['username'],
         scope=scope
     )
+
+
+@app.route("/home")
+def init():
+    if request.args.get("code") is not None:
+        code = request.args.get("code")
+        global token
+        spotify_oauth = oauth2.SpotifyOAuth(os.getenv('SPOTIPY_CLIENT_ID'), os.getenv('SPOTIPY_CLIENT_SECRET'),
+                            os.getenv('SPOTIPY_REDIRECT_URI'), scope=scope)
+        token_info = spotify_oauth.get_access_token(code)
+        if 'access_token' in token_info:
+            token = token_info['access_token']
+        else:
+            raise Exception("No valid authentication")
+    if token is None:
+        raise Exception("No valid authentication")
     global spotify
     spotify = spotipy.Spotify(auth=token)
-    return json.dumps(spotify.current_user_playlists())
+    return redirect("http://127.0.0.1:4200/user", code=302)
 
 
 @app.route("/home/search/<text>")
@@ -74,22 +99,7 @@ def add_to_playlist(playlist_id, track_id):
     return json.dumps(current_user_playlist_tracks(playlist_id=playlist_id))
 
 
-def current_user_playlist_tracks(playlist_id=None, fields=None, limit=100, offset=0, market=None):
-    plid = spotify._get_id('playlist', playlist_id)
-    return spotify._get("playlists/%s/tracks" % plid, limit=limit, offset=offset, fields=fields, market=market)
-
-
-def current_user_playlist_create(playlist_name, public=True):
-        data = {'name': playlist_name, 'public': public, 'description': 'New playlist with name {}'.format(playlist_name)}
-        return spotify._post("me/playlists", payload=data)
-
-
-def current_user_playlist_add_tracks(playlist_id, tracks, position=None):
-    plid = spotify._get_id('playlist', playlist_id)
-    ftracks = [spotify._get_uri('track', tid) for tid in tracks]
-    return spotify._post("playlists/%s/tracks" % plid, payload=ftracks, position=position)
-
-
 if __name__ == '__main__':
+    app.secret_key = os.urandom(24)
     app.run()
 
