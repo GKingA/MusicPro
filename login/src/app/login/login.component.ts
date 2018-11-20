@@ -1,7 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
+import {Http, HttpModule} from '@angular/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {AppComponent} from '../app.component';
 //import { ServiceModule } from '../service/service.module';
 import * as Handlebars from '../../../bower_components/handlebars/handlebars';
+
+@NgModule({
+    imports: [ BrowserModule, HttpModule ],
+    providers: [],
+    declarations: [ AppComponent ],
+    bootstrap: [ AppComponent ]
+})
 
 @Component({
   selector: 'app-login',
@@ -13,7 +24,9 @@ export class LoginComponent implements OnInit {
 
   //constructor(private serviceModule: ServiceModule) {}
   //constructor(private http: Http)
-	constructor() {}
+	//constructor(public http: Http) {this.http.get('http://localhost:5000/login');}
+	constructor(){}
+	//constructor(private http: Http){this.http.get('http://localhost:5000/login');}
 
   ngOnInit() {
 	  
@@ -29,7 +42,7 @@ $(function() {
 		
 		var SPOTIPY_CLIENT_ID = '942bf8f4d9ad47379fa90fd43b81afd7';
 		var CLIENT_ID = '90f01df0bd6241f69580dc7ebcc8e8a1';
-		var REDIRECT_URI = 'http://localhost:4200/home';
+		var REDIRECT_URI = 'http://localhost:5000/home';
 		
         function getLoginURL(scopes) {
             return 'https://accounts.spotify.com/authorize?client_id=' + CLIENT_ID +
@@ -53,6 +66,8 @@ $(function() {
                 callback(hash.access_token);
             }
         }, false);
+		
+		
         
         var w = window.open(url,
                             'Spotify',
@@ -77,6 +92,7 @@ $(function() {
 	
 	
     loginButton.addEventListener('click', function() {
+		
         login(function(accessToken) {
             getUserData(accessToken)
                 .then(function(response) {

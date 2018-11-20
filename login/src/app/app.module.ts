@@ -12,6 +12,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ServiceModule } from './service/service.module';
+import {Http, HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ServiceModule } from './service/service.module';
     BrowserAnimationsModule,
     CustomMaterialModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+	HttpModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,40 @@
 .title-center {
   flex: 1 1 auto;
-  text-align: center;
+
+}
+
+.w3-container{
+	
+	display: flex;
+	flex-direction: row;
+	
+}
+
+.example-card {
+	align: left;
+	width: 15%;
+	height: 100%;
+	text-align: center;
+	
+}
+
+.search-card{
+	
+	align: right;
+	height:100%;
+	width: 85%;
+	background-color: black;
+	text-align: center;
+	
+	
+}
+
+.matInput{
+  width:800px !important;
+}
+
+.example-form{
+	align: center;
+	width: 80%;
+	
 }

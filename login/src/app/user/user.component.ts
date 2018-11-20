@@ -14,3 +14,4 @@ export class UserComponent implements OnInit {
 
 }
 
+//{this.http.get('http://localhost:5000/login')
