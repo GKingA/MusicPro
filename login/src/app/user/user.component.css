@@ -39,3 +39,10 @@
 	width: 80%;
 	
 }
+
+.result-card{
+	align: right;
+	background-color: black;
+	text-align: center;
+	height: 80%
+}
