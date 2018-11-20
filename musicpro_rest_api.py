@@ -81,25 +81,29 @@ def get_work(spotify_id):
 
 @app.route("/home/playlists")
 def list_playlist():
-    return json.dumps(spotify.current_user_playlists())
+    playlists = spotify.current_user_playlists()
+    return json.dumps([{"id": p["id"], "name": p["name"]} for p in playlists["items"]])
 
 
 @app.route("/home/playlists/<playlist_id>/tracks")
 def list_tracks_in_playlist(playlist_id):
-    result = current_user_playlist_tracks(playlist_id=playlist_id)
-    return json.dumps(result)
+    result = current_user_playlist_tracks(spotify=spotify, playlist_id=playlist_id)
+    return json.dumps([{"id": r["track"]["id"], "name": r["track"]["name"],
+                        "artists": [{"id": a["id"], "name": a["name"]} for a in r["track"]["artists"]],
+                        "album": {"id": r["track"]["album"]["id"], "images": r["track"]["album"]["images"],
+                                  "name": r["track"]["album"]["name"]}} for r in result["items"]])
 
 
 @app.route("/home/playlists/new/<playlist_name>")
 def create_playlist(playlist_name):
-    current_user_playlist_create(playlist_name=playlist_name)
-    return json.dumps(spotify.current_user_playlists())
+    current_user_playlist_create(spotify=spotify, playlist_name=playlist_name)
+    return list_playlist()
 
 
 @app.route("/home/playlists/<playlist_id>/add/<track_id>")
 def add_to_playlist(playlist_id, track_id):
-    current_user_playlist_add_tracks(playlist_id=playlist_id, tracks=[track_id])
-    return json.dumps(current_user_playlist_tracks(playlist_id=playlist_id))
+    current_user_playlist_add_tracks(spotify=spotify, playlist_id=playlist_id, tracks=[track_id])
+    return list_tracks_in_playlist(playlist_id)
 
 
 if __name__ == '__main__':
