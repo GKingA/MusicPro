@@ -24,11 +24,11 @@ app = Flask(__name__)
 def login():
     global token
     session['username'] = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
-    prompt_for_user_token(
+    url = prompt_for_user_token(
         username=session['username'],
         scope=scope
     )
-    return redirect("http://127.0.0.1:4200", code=302)
+    return redirect(url, code=302)
 
 
 @app.route("/home")

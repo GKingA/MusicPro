@@ -21,13 +21,6 @@ def prompt_for_user_token(username, scope=None, client_id=None, client_secret=No
 
     sp_oauth = oauth2.SpotifyOAuth(client_id, client_secret, redirect_uri, scope=scope, cache_path=".cache-" + username)
 
-    token_info = sp_oauth.get_cached_token()
-
-    if not token_info:
-        auth_url = sp_oauth.get_authorize_url()
-        try:
-            webbrowser.open(auth_url)
-            print("Opened %s in your browser" % auth_url)
-        except:
-            print("Please navigate here: %s" % auth_url)
+    auth_url = sp_oauth.get_authorize_url()
+    return auth_url
 
