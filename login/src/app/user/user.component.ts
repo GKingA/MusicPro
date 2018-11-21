@@ -54,19 +54,32 @@ interface SpotifyTrack {
 
 export class UserComponent implements OnInit {
   playlists: Playlist[];
+  playlistTracks: SpotifyTrack[];
 
   constructor(private http:HttpClient) { }
   //constructor() { }
 
   ngOnInit() {
      this.http.get<Playlist[]>("http://localhost:5000/home/playlists").subscribe((data: Playlist[]) => this.playlists = data);
+     this.playlistTracks = [];
   }
 
   onSelectPlaylist(id: string) {
-    /*var playlistTracks: SpotifyTrack[];
-    this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/"+id+"/tracks").subscribe((data: SpotifyTrack[]) => playlistTracks = data);
-    alert(playlistTracks.length);
-    document.getElementById("results");*/
+    this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks").subscribe((data: SpotifyTrack[]) => this.playlistTracks = data);
+    var results = document.getElementById("results");
+    var out: string = "<table class='result-table' style='font-size:14pt;color:white;align-self:center;'><tr><th>Title</th><th>Artists</th><th>Album</th></tr>";
+    for (let track of this.playlistTracks) {
+      out += "<tr><td>" + track.name + " </td><td> ";
+      for (let artist of track.artists) {
+        out += artist.name + ",";
+      }
+      out += "</td><td>" + track.album.name + "</td></tr>";
+    }
+    out += "</table>"
+    results.innerHTML = out;
+  }
+
+  onSelectSong(id: string) {
     alert(id);
   }
   
