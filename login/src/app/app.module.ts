@@ -13,6 +13,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ServiceModule } from './service/service.module';
 import {Http, HttpModule} from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {Http, HttpModule} from '@angular/http';
     CustomMaterialModule,
     FormsModule,
     AppRoutingModule,
-	HttpModule
+    HttpModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
