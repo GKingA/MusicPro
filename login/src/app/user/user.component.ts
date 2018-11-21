@@ -7,10 +7,12 @@ import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import * as $ from 'jquery';
 
+// Helper interfaces
 
-interface Playlist {
+interface SpotifyAlbumTrack {
   id: string;
-  name:string;
+  name: string;
+  artists: SpotifyTrackArtist[];
 }
 
 interface SpotifyTrackArtist {
@@ -30,11 +32,70 @@ interface SpotifyTrackAlbum {
   images: SpotifyImage[];
 }
 
+// Real interfaces
+// Spotify
+
+interface Playlist {
+  id: string;
+  name:string;
+}
+
+interface SpotifyAlbum {
+  id: string;
+  name: string;
+  images: SpotifyImage[];
+  artists: SpotifyTrackArtist[];
+  tracks: SpotifyAlbumTrack[];
+}
+
+interface SpotifyArtist {
+  id: string;
+  name: string;
+  images: SpotifyImage[];
+  genre: string[];
+}
+
 interface SpotifyTrack {
   id: string;
   name: string;
   artists: SpotifyTrackArtist[];
   album: SpotifyTrackAlbum;
+}
+
+// MusicBrainz
+
+interface MusicBrainzArtist {
+  name: string;
+  disambiguation: string;
+  tags: string[];
+}
+
+interface MusicBrainzRelease {
+  title: string;
+  artists: string[];
+}
+
+interface MusicBrainzTrack {
+  title: string;
+  artists: string[];
+  releases: MusicBrainzRelease[];
+}
+
+// MusicBrainz and Spotify
+
+interface MusicBrainzSpotifyTrack {
+  spotify: SpotifyTrack;
+  musicbrainz: MusicBrainzTrack;
+}
+
+interface MusicBrainzSpotifyArtist {
+  spotify: SpotifyArtist;
+  musicbrainz: MusicBrainzArtist;
+}
+
+interface MusicBrainzSpotifyAlbum {
+  spotify: SpotifyAlbum;
+  musicbrainz: MusicBrainzRelease;
 }
 
 @NgModule({
@@ -55,6 +116,7 @@ interface SpotifyTrack {
 export class UserComponent implements OnInit {
   playlists: Playlist[];
   playlistTracks: SpotifyTrack[];
+  musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 
   constructor(private http:HttpClient) { }
   //constructor() { }
@@ -80,7 +142,9 @@ export class UserComponent implements OnInit {
   }
 
   onSelectSong(id: string) {
-    alert(id);
+    this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + id).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
+    var results = document.getElementById("results");
+    var toggle = document.getElementById("toggle");
   }
   
 }
