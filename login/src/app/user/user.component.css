@@ -46,9 +46,15 @@
 	align: right;
 	background-color: black;
 	text-align: center;
-	height: 80%
+	height: 80%;
+	align-content: center;
 }
 
 .title-playlist{
 	align: center;
+}
+
+.result-table{
+	align: center;
+	background-color: darkgray;
 }

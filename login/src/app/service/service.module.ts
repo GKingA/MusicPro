@@ -8,8 +8,6 @@ import { map } from 'rxjs/operators';
 
 import { Configuration } from '../app.constants';
 
-
-@Injectable()
 @NgModule({
   declarations: [],
   imports: [
@@ -17,37 +15,49 @@ import { Configuration } from '../app.constants';
   ]
 })
 
-
 @Injectable()
 export class ServiceModule {
 
     private actionUrl: string;
 
-    constructor(private http: HttpClient, private configuration: Configuration) {
-        this.actionUrl = configuration.serverWithApiUrl + 'home';
+    constructor(private http: HttpClient) {
+        this.actionUrl = 'http://localhost:5000/home';
     }
 
-    public getAll<T>(): Observable<T> {
-        return this.http.get<T>(this.actionUrl);
+    public getSearch<T>(text: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl+'/seach/'+text);
     }
 
-    public getSingle<T>(id: number): Observable<T> {
-        return this.http.get<T>(this.actionUrl + id);
+    public getSong<T>(id: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl+'/song/'+id);
     }
 
-    public add<T>(itemName: string): Observable<T> {
-        const toAdd = { ItemName: itemName };
-
-        return this.http.post<T>(this.actionUrl, toAdd);
+    public getArtist<T>(id: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl+'/artist/'+id);
     }
 
-    public update<T>(id: number, itemToUpdate: any): Observable<T> {
-        return this.http
-            .put<T>(this.actionUrl + id, itemToUpdate);
+    public getAlbum<T>(id: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl+'/album/'+id);
     }
 
-    public delete<T>(id: number): Observable<T> {
-        return this.http.delete<T>(this.actionUrl + id);
+    public getWork<T>(id: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl+'/work/'+id);
+    }
+
+    public getPlaylist<T>(): Observable<T> {
+        return this.http.get<T>(this.actionUrl + '/playlists');
+    }
+
+    public getPlaylistTracks<T>(id: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl + '/playlists/' + id + '/tracks');
+    }
+
+    public addNewPlaylist<T>(text: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl + '/playlists/' + text);
+    }
+
+    public addSongToPlaylist<T>(playlistId: string, trackId: string): Observable<T> {
+        return this.http.get<T>(this.actionUrl + '/playlists/' + playlistId + '/add/' + trackId);
     }
 }
 

@@ -1,8 +1,6 @@
 <mat-toolbar color="primary">
 	<span class="title-center" style="font-size:22pt;color:white;">MusicPro</span>
 	Spotify&nbsp;<mat-slide-toggle> MusicBrainz</mat-slide-toggle>
-	<span class="title-center">MusicPro</span>
-	Spotify&nbsp;<mat-slide-toggle id=toggle> MusicBrainz</mat-slide-toggle>
 </mat-toolbar>
 
 
@@ -28,7 +26,7 @@
 		<mat-form-field class="example-full-width">
 			<input matInput id="searchInput" style="width:800px !important" placeholder="Search for a song" type="text" style="font-size:14pt;color:white;">
 		</mat-form-field>
-		&nbsp;&nbsp;&nbsp;<button mat-raised-button id="searchButton" color="primary" (click)="onSearch" align="right-side">Search</button>
+		&nbsp;&nbsp;&nbsp;<button mat-raised-button id="searchButton" color="primary" (click)="search()" align="right-side">Search</button>
 
 	</form>
 	

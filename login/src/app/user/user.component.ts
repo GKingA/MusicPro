@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Observable } from "rxjs";
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import {AppComponent} from '../app.component';
+//import {ServiceModule} from '../service/service.module';
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import * as $ from 'jquery';
@@ -116,9 +117,12 @@ interface MusicBrainzSpotifyAlbum {
 export class UserComponent implements OnInit {
   playlists: Playlist[];
   playlistTracks: SpotifyTrack[];
+  searchResults: SpotifyTrack[];
   musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) { 
+    //document.getElementById("searchButton").addEventListener('click', this.search);
+  }
   //constructor() { }
 
   ngOnInit() {
@@ -126,19 +130,27 @@ export class UserComponent implements OnInit {
      this.playlistTracks = [];
   }
 
-  onSelectPlaylist(id: string) {
-    this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks").subscribe((data: SpotifyTrack[]) => this.playlistTracks = data);
+  showSpotifyTracks(tracks: SpotifyTrack[]) {
     var results = document.getElementById("results");
     var out: string = "<table class='result-table' style='font-size:14pt;color:white;align-self:center;'><tr><th>Title</th><th>Artists</th><th>Album</th></tr>";
-    for (let track of this.playlistTracks) {
-      out += "<tr><td>" + track.name + " </td><td> ";
+    for (let track of tracks) {
+      out += "<tr><td><a (click)=onSelectSong('"+track.id+"')>" + track.name + " </a></td><td> ";
       for (let artist of track.artists) {
-        out += artist.name + ",";
+        out += artist.name;
+        if (track.artists.indexOf(artist) != track.artists.length - 1) {
+          out += ", ";
+        }
       }
       out += "</td><td>" + track.album.name + "</td></tr>";
     }
+
     out += "</table>"
     results.innerHTML = out;
+  }
+
+  onSelectPlaylist(id: string) {
+    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks");
+    observer.subscribe((data: SpotifyTrack[]) => {this.playlistTracks = data; this.showSpotifyTracks(this.playlistTracks);});
   }
 
   onSelectSong(id: string) {
@@ -146,23 +158,18 @@ export class UserComponent implements OnInit {
     var results = document.getElementById("results");
     var toggle = document.getElementById("toggle");
   }
-  
-}
 
-//{this.http.get('http://localhost:5000/login')
-//Get localhost:5000/home/search/<text>
+  searchOnServer(text: string) {
+    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/search/" + text);
+    observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data; this.showSpotifyTracks(this.searchResults);});
+  }
 
-
-$(function() {
-
-    function search() {
+  search() {
 		if(document.getElementById("searchInput") != null){
-			alert((<HTMLInputElement>document.getElementById("searchInput")).value);
+      this.searchOnServer((<HTMLInputElement>document.getElementById("searchInput")).value);
 		}else {
 			alert("Invalid credentials");
-		}		
+		}
 	}
-	
-    var searchButton = document.getElementById("searchButton");
-    searchButton.addEventListener('click', search);
-})
+  
+}
