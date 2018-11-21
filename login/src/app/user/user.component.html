@@ -11,12 +11,9 @@
 			<mat-card-title>My Playlists</mat-card-title>
 		</mat-card-header>
 		<mat-card-actions>
-				<mat-list>
-				  <mat-list-item>Item 1</mat-list-item>
+				<mat-list *ngFor="let playlist of playlists" (click)="onSelectPlaylist(playlist.id)">
+				  <mat-list-item>{{playlist.name}}</mat-list-item>
 				  <mat-divider></mat-divider>
-				  <mat-list-item>Item 2</mat-list-item>
-				  <mat-divider></mat-divider>
-				  <mat-list-item>Item 3</mat-list-item>
 				</mat-list>
 		 </mat-card-actions>
 		</mat-card>
