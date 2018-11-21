@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {AppComponent} from '../app.component';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import * as $ from 'jquery';
 
 
 export class Playlist {
@@ -51,10 +52,25 @@ export class UserComponent implements OnInit {
 
   onSelectPlaylist(id: string) {
     //this.http.get<Playlist[]>("http://localhost:5000/home/playlists/"+id+"/tracks");
-    alert("meow");
+    alert(id);
   }
-
+  
 }
 
 //{this.http.get('http://localhost:5000/login')
+//Get localhost:5000/home/search/<text>
 
+
+$(function() {
+
+    function search() {
+		if(document.getElementById("searchInput") != null){
+			alert((<HTMLInputElement>document.getElementById("searchInput")).value);
+		}else {
+			alert("Invalid credentials");
+		}		
+	}
+	
+    var searchButton = document.getElementById("searchButton");
+    searchButton.addEventListener('click', search);
+})
