@@ -2,6 +2,7 @@ import random
 import string
 
 from flask import Flask, request, session, redirect
+from flask_cors import CORS
 import json
 
 from spotify_musicbrainz_search import search_artist, search_album, search_song, search_work, search
@@ -9,7 +10,6 @@ import os
 import spotipy.oauth2 as oauth2
 
 import spotipy
-#import spotipy.util as util
 from spotify_current_user_methods import current_user_playlist_create, current_user_playlist_tracks, \
     current_user_playlist_add_tracks
 
@@ -18,6 +18,7 @@ from spotify_authentication import prompt_for_user_token
 scope = "user-read-private playlist-read-private playlist-modify-public playlist-modify-private"
 
 app = Flask(__name__)
+CORS(app, supports_credentials=True)
 
 
 @app.route("/login")
