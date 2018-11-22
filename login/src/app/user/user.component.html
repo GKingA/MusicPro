@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
 	<span class="title-center" style="font-size:22pt;color:white;">MusicPro</span>
-	Spotify&nbsp;<mat-slide-toggle> MusicBrainz</mat-slide-toggle>
+	Spotify&nbsp;<mat-slide-toggle id="slide" [checked]="checked"> MusicBrainz</mat-slide-toggle>
 </mat-toolbar>
 
 
@@ -9,7 +9,7 @@
 		<mat-card class="example-card">
 		<mat-card-header>
 			<mat-card-title class="title-playlist" style="font-size:18pt;color:white;">Your Playlists</mat-card-title>
-			&nbsp;&nbsp;<button mat-mini-fab style="font-size:18pt;color:white;" color="primary">+</button>
+			&nbsp;&nbsp;<button mat-mini-fab (click)="addPlaylist()" style="font-size:18pt;color:white;" color="primary">+</button>
 
 		</mat-card-header>
 		<mat-card-actions>

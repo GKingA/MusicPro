@@ -25,7 +25,7 @@
    </mat-card-content>
    <mat-card-actions align="center">
    <div class="container">
-     <button mat-raised-button class="btn btn-primary" id="btn-login" color="primary">Login</button>
+     <button mat-raised-button class="btn btn-primary" id="btn-login" (click)="login()" color="primary">Login</button>
 	 <div id="result"></div>
 	</div>
 
@@ -35,24 +35,3 @@
   </mat-grid-tile>
 
 </mat-grid-list>
-
-	<script id="result-template" type="text/x-handlebars-template">
-		<dl>
-		  <img src="{{images.0.url}}">
-		  <dt>User Name</dt>
-		  <dd>{{id}}</dd>
-		  <dt>Display Name</dt>
-		  <dd>{{display_name}}</dd>
-		  <dt>Country</dt>
-		  <dd>{{country}}</dd>
-		  <dt>Followers</dt>
-		  <dd>{{followers.total}}</dd>
-		  <dt>Profile</dt>
-		  <dd><a href="{{external_urls.spotify}}" target="_blank">{{external_urls.spotify}}</a></dd>
-		  <dt>Email</dt>
-		  <dd>{{email}}</dd>
-		  <dt>Product</dt>
-		  <dd>{{product}}</dd>
-		</dl>
-	</script>
-

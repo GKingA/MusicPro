@@ -25,40 +25,7 @@ export class LoginComponent implements OnInit {
     
     ngOnInit() {}
 
-}
-
-$(function() {
-
-    function login(callback) {
+    login() {
         location.href = "http://localhost:5000/login";
     }
-
-    function getUserData(accessToken) {
-        return $.ajax({
-            url: 'https://api.spotify.com/v1/me',
-            headers: {
-               'Authorization': 'Bearer ' + accessToken
-            }
-        });
-    }
-	
-    var resultsPlaceholder = document.getElementById('result');
-    var loginButton = document.getElementById('btn-login');
-    
-	var template;
-	
-	
-    loginButton.addEventListener('click', function() {
-		
-        login(function(accessToken) {
-            getUserData(accessToken)
-                .then(function(response) {
-                    loginButton.style.display = 'none';
-					template = Handlebars.compile(document.getElementById('result-template').innerHTML)
-                    resultsPlaceholder.innerHTML = template(response);
-                });
-            });
-        
-    });
-	/////this.router.navigate(["user"]);////
-})
+}
