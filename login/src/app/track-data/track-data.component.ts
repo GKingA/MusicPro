@@ -7,6 +7,7 @@ import {AppComponent} from '../app.component';
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import * as $ from 'jquery';
+import { ActivatedRoute } from '@angular/router';
 
 // Helper interfaces
 
@@ -113,24 +114,30 @@ interface MusicBrainzSpotifyAlbum {
 })
 
 export class TrackDataComponent implements OnInit {
+	private sub: any;
 	id: string;
 	title: string;
-  playlists: Playlist[];
-  playlistTracks: SpotifyTrack[];
-  artist: MusicBrainzSpotifyArtist;
-  album: MusicBrainzSpotifyAlbum;
-  musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
+	playlists: Playlist[];
+	playlistTracks: SpotifyTrack[];
+	artist: MusicBrainzSpotifyArtist;
+	album: MusicBrainzSpotifyAlbum;
+	musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
+	showSpotify: boolean;
+	predictedTracks: SpotifyTrack[];
 
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient, private route: ActivatedRoute) { 
   }
 
   ngOnInit() {
-	 //TODO ID-T KINYERNI
-	 this.id = +params['id'];
-   this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;});
-	 this.playlistTracks=[];
-	 this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +this.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyTrack) => {this.title=data.spotify.name; this.musicBrainzSpotifyTrack=data;});
-	 this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +this.musicBrainzSpotifyTrack.spotify.artists[0].id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyArtist) => {this.artist=data;});
+	this.showSpotify=true;
+	this.sub = this.route.params.subscribe(params => {
+       this.id = params['id'];
+    });
+	this.predictedTracks=[];
+	this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;});
+	this.playlistTracks=[];
+	this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +this.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyTrack) => {this.title=data.spotify.name; this.musicBrainzSpotifyTrack=data;});
+	this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +this.musicBrainzSpotifyTrack.spotify.artists[0].id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyArtist) => {this.artist=data;});
   this.http.get<MusicBrainzSpotifyAlbum>("http://localhost:5000/home/album/" +this.musicBrainzSpotifyTrack.spotify.album.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyAlbum) => {this.album=data;});
   }
 
@@ -139,5 +146,8 @@ export class TrackDataComponent implements OnInit {
     observer.subscribe((data: SpotifyTrack[]) => {this.playlistTracks = data;});
   }
 
+  onWork(){
+	  this.http.get<SpotifyTrack[]>("http://localhost:5000/home/work/" +this.id,  {withCredentials:true}).subscribe((data: SpotifyTrack[]) => {this.predictedTracks = data;});
+  }
  ////work :  "http://localhost:5000/home/work/ +id(songid) --> visszatérés: spotifytracklist
 }

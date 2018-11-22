@@ -27,9 +27,12 @@
 		<mat-card-content id="results">
 		</mat-card-content>	
 		<mat-card-actions>
-				
+		<spotify-component *ngif="showSpotify" >
 			<ng-container [routerLink]="['/track-data/', id]" *ngIf="id != null" class="result-card">
 				<span style="font-size:18pt;color:white;align:center;">{{title}}</span>
+				<button mat-icon-button color="primary">
+						<mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+				</button>
 					<mat-grid-list cols="2" rowHeight="8:1" class="grid-songs" style="text-align:left;color:white;">
 					
 						<mat-grid-tile class="text-inside-grid"><a >Artist</a></mat-grid-tile>
@@ -42,9 +45,31 @@
 						<mat-grid-tile>YEAR</mat-grid-tile>
 					</mat-grid-list>
 			</ng-container>
+		</spotify-component>
+		<musicbrainz-component *ngif="!showSpotify" >
+		
+		</musicbrainz-component>
 		 </mat-card-actions>			
 	</mat-card>
 	
+	<mat-card class="work-card" style="align:center">
+		
+		<button mat-raised-button color="primary" (click)="onWork()">Work</button>
+		<ng-container *ngIf="predictedTracks.length != 0" class="result-card">
+		<mat-grid-list *ngFor="let item of predictedTracks" cols="3" rowHeight="8:1" class="grid-songs" style="text-align:left;color:white;">
+					<mat-grid-tile class="text-inside-grid"><a >{{item.name}} </a></mat-grid-tile>
+					<mat-grid-tile class="text-inside-grid"><a >{{item.artists[0].name}}</a></mat-grid-tile>
+					<mat-grid-tile class="text-inside-grid"><a >{{item.album.name}} 
+					<button mat-icon-button color="primary">
+						<mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+					</button>
+					</a></mat-grid-tile>
+		</ng-container>
+	</mat-grid-list>
+		
+		
+	
+	</mat-card>
 </mat-card>
 
 </div>
