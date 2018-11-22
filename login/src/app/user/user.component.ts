@@ -47,6 +47,7 @@ interface Playlist {
 interface SpotifyAlbum {
   id: string;
   name: string;
+  date: string;
   images: SpotifyImage[];
   artists: SpotifyTrackArtist[];
   tracks: SpotifyAlbumTrack[];
@@ -82,7 +83,7 @@ interface MusicBrainzRelease {
 interface MusicBrainzTrack {
   title: string;
   artists: string[];
-  releases: MusicBrainzRelease[];
+  releases: string[];
 }
 
 // MusicBrainz and Spotify

@@ -48,6 +48,7 @@ interface Playlist {
 interface SpotifyAlbum {
   id: string;
   name: string;
+  date: string;
   images: SpotifyImage[];
   artists: SpotifyTrackArtist[];
   tracks: SpotifyAlbumTrack[];
@@ -83,7 +84,7 @@ interface MusicBrainzRelease {
 interface MusicBrainzTrack {
   title: string;
   artists: string[];
-  releases: MusicBrainzRelease[];
+  releases: string[];
 }
 
 // MusicBrainz and Spotify
@@ -132,6 +133,7 @@ export class TrackDataComponent implements OnInit {
   newDialogRef: MatDialogRef<DialogPlaylistComponent>;
   playlist: Playlist;
   playlistName: string;
+  playlistId: string;
 
   constructor(private http:HttpClient, private route: ActivatedRoute, public dialog: MatDialog) { 
   }
@@ -169,7 +171,7 @@ export class TrackDataComponent implements OnInit {
 
   addToPlaylist(id: string) {
     this.addDialogRef = this.dialog.open(DialogAddToPlaylistComponent, {
-      data: {id: this.playlists[0].id}
+      data: {id: this.playlistId}
     });
 
     this.addDialogRef.afterClosed().subscribe(result => {

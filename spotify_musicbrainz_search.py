@@ -134,15 +134,20 @@ def search_song(spotify, spotify_song_id):
                 best_match = result
         music_brainz_track_result = {
             "title": best_match["title"],
-            "artists": [a["artist"]["name"] for a in best_match["artist-credit"]],
-            "releases": [{"artists": [a["artist"]["name"] for a in release["artist-credit"]], "title": release["title"]}
-                         for release in best_match["releases"]]
+            "artists": [],
+            "releases": []
             }
+        if "artist-credit" in best_match:
+            music_brainz_track_result["artists"] = [a["artist"]["name"] for a in best_match["artist-credit"]]
+        elif "artist_credit" in best_match:
+            music_brainz_track_result["artists"] = [a["artist"]["name"] for a in best_match["artist_credit"]]
+        if "releases" in best_match:
+            music_brainz_track_result["releases"] = [release["title"] for release in best_match["releases"]]
     else:
         music_brainz_track_result = {
             "title": "",
             "artists": [""],
-            "releases": [{"artists": "", "title": ""}]
+            "releases": [{"artists": [""], "title": ""}]
             }
     spotify_track_result = {
         "id": track_result["id"],
@@ -171,8 +176,12 @@ def search_album(spotify, spotify_album_id):
                 best_match = result
         music_brainz_album_result = {
             "title": best_match["title"],
-            "artists": [a["artist"]["name"] for a in best_match["artist-credit"]]
+            "artists": [""]
         }
+        if "artist-credit" in best_match:
+            music_brainz_album_result["artists"] = [a["artist"]["name"] for a in best_match["artist-credit"]]
+        elif "artist_credit" in best_match:
+            music_brainz_album_result["artists"] = [a["artist"]["name"] for a in best_match["artist_credit"]]
     else:
         music_brainz_album_result = {
             "title": "",
@@ -180,6 +189,7 @@ def search_album(spotify, spotify_album_id):
         }
     spotify_album_result = {
         "id": album_result["id"],
+        "date": album_result["release_date"],
         "images": album_result["images"],
         "name": album_result["name"],
         "artists": [{"id": a["id"], "name": a["name"]} for a in album_result["artists"]],
