@@ -2,7 +2,11 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSelectModule} from '@angular/material';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-export interface Playlist {
+export interface Data {
+  id: string;
+}
+
+interface Playlist {
   id: string;
   name:string;
 }
@@ -15,10 +19,14 @@ export interface Playlist {
 export class DialogAddToPlaylistComponent implements OnInit {
   playlists: Playlist[];
 
-  constructor(dialogRef: MatDialogRef<DialogAddToPlaylistComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Playlist, private http:HttpClient) {}
+  constructor(public dialogRef: MatDialogRef<DialogAddToPlaylistComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Data, private http:HttpClient) {}
 
   ngOnInit() {
     this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;});
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

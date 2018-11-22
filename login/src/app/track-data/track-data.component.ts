@@ -136,7 +136,7 @@ export class TrackDataComponent implements OnInit {
   playlistName: string;
   playlistId: string;
 
-  constructor(private http:HttpClient, private route: ActivatedRoute, public dialog: MatDialog) { 
+  constructor(private http:HttpClient, private route: ActivatedRoute, public addDialog: MatDialog, public newDialog: MatDialog) { 
   }
 
   ngOnInit() {
@@ -171,14 +171,15 @@ export class TrackDataComponent implements OnInit {
   }
 
   addToPlaylist(id: string) {
-    this.addDialogRef = this.dialog.open(DialogAddToPlaylistComponent, {
+    this.addDialogRef = this.addDialog.open(DialogAddToPlaylistComponent, {
       data: {id: this.playlistId}
     });
 
     this.addDialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if(result != null) {
-        this.http.get("http://localhost:5000/home/playlists/"+result+"/add/"+id, {withCredentials:true}).subscribe((data: Playlist) => this.playlist = data);
+      this.playlistId = result;
+      if(this.playlistId != null) {
+        this.http.get("http://localhost:5000/home/playlists/"+this.playlistId+"/add/"+id, {withCredentials:true}).subscribe((data: Playlist) => this.playlist = data);
       }
     });
   }
@@ -194,7 +195,7 @@ export class TrackDataComponent implements OnInit {
   }
 
   addPlaylist() {
-    this.newDialogRef = this.dialog.open(DialogPlaylistComponent, {
+    this.newDialogRef = this.newDialog.open(DialogPlaylistComponent, {
       data: {playlistName: this.playlistName}
     });
 

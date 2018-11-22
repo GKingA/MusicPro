@@ -1,8 +1,8 @@
-<h1 mat-dialog-title style="font-size:22pt;color:white;">New Playlist</h1>
+<h1 mat-dialog-title style="font-size:22pt;color:white;">Add to playlist</h1>
 <div mat-dialog-content>
   <p>Select the playlist you want to add this song!</p>
   <mat-form-field>
-      <mat-select placeholder="Playlist">
+      <mat-select placeholder="Playlist" [(ngModel)]="selectedValue">
           <mat-option *ngFor="let playlist of playlists" [value]="playlist.id">
             {{playlist.name}}
           </mat-option>
@@ -11,5 +11,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="playlist.id" cdkFocusInitial>Ok</button>
+  <button mat-button [mat-dialog-close]="selectedValue" cdkFocusInitial>Ok</button>
 </div>

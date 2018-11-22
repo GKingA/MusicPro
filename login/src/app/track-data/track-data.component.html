@@ -66,7 +66,7 @@
 			
 			<button mat-raised-button color="primary" (click)="onWork()">Work</button>
 			<ng-container *ngIf="predictedTracks.length != 0" class="result-card">
-			<mat-grid-list *ngFor="let item of predictedTracks" cols="3" rowHeight="6:1" class="grid-songs" style="text-align:left;color:white;">
+			<mat-grid-list *ngFor="let item of predictedTracks" cols="3" rowHeight="6:1" class="grid-songs" style="text-align:left;color:white;" (click)="addToPlaylist(item.id)">
 						<mat-grid-tile class="text-inside-grid"><a >{{item.name}} </a></mat-grid-tile>
 						<mat-grid-tile class="text-inside-grid"><a >{{item.artists[0].name}}</a></mat-grid-tile>
 						<mat-grid-tile class="text-inside-grid"><a >{{item.album.name}} 

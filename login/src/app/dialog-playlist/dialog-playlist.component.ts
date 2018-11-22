@@ -12,10 +12,14 @@ export interface DialogData {
 })
 export class DialogPlaylistComponent implements OnInit {
 
-  constructor(dialogRef: MatDialogRef<DialogPlaylistComponent>,
+  constructor(public dialogRef: MatDialogRef<DialogPlaylistComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit() {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }
