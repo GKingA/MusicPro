@@ -63,7 +63,7 @@
 		</mat-card>
 		
 		<mat-card class="work-card" style="align:center">
-			
+			<ng-container *ngIf="showSpotify" class="result-card">
 			<button mat-raised-button color="primary" (click)="onWork()">Work</button>
 			<ng-container *ngIf="predictedTracks.length != 0" class="result-card">
 			<mat-grid-list *ngFor="let item of predictedTracks" cols="3" rowHeight="6:1" class="grid-songs" style="text-align:left;color:white;">
@@ -73,6 +73,7 @@
 						 <button mat-mini-fab color="primary">Add</button>
 						</a></mat-grid-tile>
 			</mat-grid-list>
+			</ng-container>
 			</ng-container>
 		</mat-card>
 	</mat-card>
