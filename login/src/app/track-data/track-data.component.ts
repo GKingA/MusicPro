@@ -127,8 +127,7 @@ export class TrackDataComponent implements OnInit {
   ngOnInit() {
 	 //TODO ID-T KINYERNI
 	 this.id = +params['id'];
-  this.http.get<Playlist[]>("http://localhost:5000/home/playlists").subscribe((data: Playlist[]) => {this.playlists = data;});
-  this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;});
+   this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;});
 	 this.playlistTracks=[];
 	 this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +this.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyTrack) => {this.title=data.spotify.name; this.musicBrainzSpotifyTrack=data;});
 	 this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +this.musicBrainzSpotifyTrack.spotify.artists[0].id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyArtist) => {this.artist=data;});
