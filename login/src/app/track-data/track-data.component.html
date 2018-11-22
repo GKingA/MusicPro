@@ -45,7 +45,19 @@
 				</ng-container>
 			</ng-container>
 			<ng-container class="musicbrainz-component" *ngIf="!showSpotify" >
-						MUSICBRAIINZ
+						<ng-container class="result-card">
+					<span style="font-size:18pt;color:white;align:center;">{{title}}</span>					
+						<mat-grid-list cols="2" rowHeight="10:1" class="grid-songs" style="text-align:left;color:white;" columnHeight="400px">
+							<mat-grid-tile class="text-inside-grid"><a >Artist</a></mat-grid-tile>
+							<mat-grid-tile class="text-inside-grid"><a >{{artist.musicbrainz.name}}</a></mat-grid-tile>
+							<mat-grid-tile></mat-grid-tile>
+							<mat-grid-tile class="text-inside-grid"><a >{{artist.musicbrainz.genres}}</a></mat-grid-tile>
+							<mat-grid-tile class="text-inside-grid"><a >Album</a></mat-grid-tile>
+							<mat-grid-tile>{{album.spotify.name}}</mat-grid-tile>
+							<mat-grid-tile></mat-grid-tile>
+							<mat-grid-tile>YEAR</mat-grid-tile>
+						</mat-grid-list>
+				</ng-container>
 			</ng-container>
 			</mat-card-actions>			
 		</mat-card>
