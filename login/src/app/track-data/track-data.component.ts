@@ -8,6 +8,8 @@ import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import * as $ from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { DialogAddToPlaylistComponent } from '../dialog-add-to-playlist/dialog-add-to-playlist.component';
 
 // Helper interfaces
 
@@ -104,7 +106,8 @@ interface MusicBrainzSpotifyAlbum {
     imports: [ BrowserModule, HttpModule ],
     providers: [],
     declarations: [ AppComponent ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [ AppComponent ],
+    entryComponents: [DialogAddToPlaylistComponent]
 })
 
 @Component({
@@ -124,8 +127,9 @@ export class TrackDataComponent implements OnInit {
 	musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 	showSpotify: boolean;
 	predictedTracks: SpotifyTrack[];
+  dialogRef: MatDialogRef<DialogAddToPlaylistComponent>;
 
-  constructor(private http:HttpClient, private route: ActivatedRoute) { 
+  constructor(private http:HttpClient, private route: ActivatedRoute, public dialog: MatDialog) { 
   }
 
   ngOnInit() {
@@ -157,6 +161,19 @@ export class TrackDataComponent implements OnInit {
 
   onWork(){
     this.http.get<SpotifyTrack[]>("http://localhost:5000/home/work/" + this.id,  {withCredentials:true}).subscribe((data: SpotifyTrack[]) => {this.predictedTracks = data;});
+  }
+
+  addToPlaylist(id: string) {
+    this.dialogRef = this.dialog.open(DialogAddToPlaylistComponent, {
+      data: {id: this.playlists[0].id}
+    });
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if(result != null) {
+        this.http.get("http://localhost:5000/home/playlists/"+result+"/add/"+id, {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
+      }
+    });
   }
  ////work :  "http://localhost:5000/home/work/ +id(songid) --> visszatérés: spotifytracklist
 }

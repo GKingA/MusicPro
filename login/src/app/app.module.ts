@@ -43,6 +43,6 @@ import { DialogAddToPlaylistComponent } from './dialog-add-to-playlist/dialog-ad
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogPlaylistComponent ]
+  entryComponents: [ DialogPlaylistComponent, DialogAddToPlaylistComponent ]
 })
 export class AppModule { }
