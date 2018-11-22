@@ -181,6 +181,16 @@ export class TrackDataComponent implements OnInit {
       }
     });
   }
+  
+  onToggleChange(){
+	if(this.showSpotify==true)
+	{
+		  this.showSpotify=false;
+	}
+	 else {
+		 this.showSpotify=true;
+	}
+  }
 
   addPlaylist() {
     this.newDialogRef = this.dialog.open(DialogPlaylistComponent, {
