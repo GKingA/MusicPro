@@ -12,11 +12,13 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ServiceModule } from './service/service.module';
+import {MatSelectModule} from '@angular/material';
 import {Http, HttpModule} from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {MatDialogModule} from '@angular/material';
 import { DialogPlaylistComponent } from './dialog-playlist/dialog-playlist.component';
 import { TrackDataComponent } from './track-data/track-data.component';
+import { DialogAddToPlaylistComponent } from './dialog-add-to-playlist/dialog-add-to-playlist.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { TrackDataComponent } from './track-data/track-data.component';
     LoginComponent,
     UserComponent,
     DialogPlaylistComponent,
-    TrackDataComponent//,
+    TrackDataComponent,
+    DialogAddToPlaylistComponent//,
 	  //ServiceModule
   ],
   imports: [
@@ -35,7 +38,8 @@ import { TrackDataComponent } from './track-data/track-data.component';
     AppRoutingModule,
     HttpModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],
