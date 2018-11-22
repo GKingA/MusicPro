@@ -69,7 +69,7 @@ def list_spotify_results(text):
         return json.dumps(search(spotify, text))
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         return json.dumps(search(spotify, text))
 
 
@@ -81,7 +81,7 @@ def get_artist_info(spotify_id):
         return json.dumps({"spotify": spotify_result, "musicbrainz": music_brainz_result})
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         spotify_result, music_brainz_result = search_artist(spotify, spotify_id)
         return json.dumps({"spotify": spotify_result, "musicbrainz": music_brainz_result})
 
@@ -94,7 +94,7 @@ def get_song_info(spotify_id):
         return json.dumps({"spotify": spotify_result, "musicbrainz": music_brainz_result})
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         spotify_result, music_brainz_result = search_song(spotify, spotify_id)
         return json.dumps({"spotify": spotify_result, "musicbrainz": music_brainz_result})
 
@@ -107,7 +107,7 @@ def get_album_info(spotify_id):
         return json.dumps({"spotify": spotify_result, "musicbrainz": music_brainz_result})
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         spotify_result, music_brainz_result = search_album(spotify, spotify_id)
         return json.dumps({"spotify": spotify_result, "musicbrainz": music_brainz_result})
 
@@ -120,7 +120,7 @@ def get_work(spotify_id):
         return json.dumps(spotify_result)
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         spotify_result = search_work(spotify, spotify_id)
         return json.dumps(spotify_result)
 
@@ -133,7 +133,7 @@ def list_playlist():
         return json.dumps([{"id": p["id"], "name": p["name"]} for p in playlists["items"]])
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         playlists = spotify.current_user_playlists()
         return json.dumps([{"id": p["id"], "name": p["name"]} for p in playlists["items"]])
 
@@ -149,7 +149,7 @@ def list_tracks_in_playlist(playlist_id):
                                       "name": r["track"]["album"]["name"]}} for r in result["items"]])
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         result = current_user_playlist_tracks(spotify=spotify, playlist_id=playlist_id)
         return json.dumps([{"id": r["track"]["id"], "name": r["track"]["name"],
                             "artists": [{"id": a["id"], "name": a["name"]} for a in r["track"]["artists"]],
@@ -165,7 +165,7 @@ def create_playlist(playlist_name):
         return list_playlist()
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         current_user_playlist_create(spotify=spotify, playlist_name=playlist_name)
         return list_playlist()
 
@@ -178,7 +178,7 @@ def add_to_playlist(playlist_id, track_id):
         return list_tracks_in_playlist(playlist_id)
     except SpotifyException:
         session['token'] = refresh_token(session.get('username'), scope=scope)
-        globals()['spotify'] = spotipy.Spotify(auth=session.get('token'))
+        spotify = spotipy.Spotify(auth=session.get('token'))
         current_user_playlist_add_tracks(spotify=spotify, playlist_id=playlist_id, tracks=[track_id])
         return list_tracks_in_playlist(playlist_id)
 
