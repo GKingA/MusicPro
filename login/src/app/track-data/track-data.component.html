@@ -30,10 +30,9 @@
 			<ng-container class="spotify-component" *ngIf="showSpotify" >
 				<ng-container class="result-card">
 					<span style="font-size:18pt;color:white;align:center;">{{title}}</span>
-					<button mat-icon-button color="primary">
-							<mat-icon aria-label="Example icon-button with a heart icon" (click)="addToPlaylist(musicBrainzSpotifyTrack.spotify.id)">favorite</mat-icon>
-					</button>
-						<mat-grid-list cols="2" rowHeight="8:1" class="grid-songs" style="text-align:left;color:white;">
+					<button mat-mini-fab (click)="addToPlaylist(musicBrainzSpotifyTrack.spotify.id)" style="font-size:18pt;color:white;" color="primary">+</button>
+					
+						<mat-grid-list cols="2" rowHeight="10:1" class="grid-songs" style="text-align:left;color:white;" columnHeight="400px">
 							<mat-grid-tile class="text-inside-grid"><a >Artist</a></mat-grid-tile>
 							<mat-grid-tile class="text-inside-grid"><a >{{artist.spotify.name}}</a></mat-grid-tile>
 							<mat-grid-tile></mat-grid-tile>
@@ -59,9 +58,7 @@
 						<mat-grid-tile class="text-inside-grid"><a >{{item.name}} </a></mat-grid-tile>
 						<mat-grid-tile class="text-inside-grid"><a >{{item.artists[0].name}}</a></mat-grid-tile>
 						<mat-grid-tile class="text-inside-grid"><a >{{item.album.name}} 
-						<button mat-icon-button color="primary">
-							<mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
-						</button>
+						 <button mat-mini-fab color="primary">Add</button>
 						</a></mat-grid-tile>
 			</mat-grid-list>
 			</ng-container>
