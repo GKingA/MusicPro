@@ -147,9 +147,9 @@ export class TrackDataComponent implements OnInit {
   this.predictedTracks=[];
   this.title = "";
   this.musicBrainzSpotifyTrack = {spotify: {id: "", name: "", artists: [{id: "", name: ""}], album: {id: "", name: "", images: []}}, 
-                                  musicbrainz: {title: "", artists: [], releases: [{title: "", artists: []}]}};
+                                  musicbrainz: {title: "", artists: [], releases: []}};
   this.artist = {spotify: {id: "", name: "", images: [], genre: []}, musicbrainz: {name: "", disambiguation: "", tags: []}};
-  this.album = {spotify: {id: "", name: "", images: [], artists: [], tracks: []}, musicbrainz: {title: "", artists: []}};
+  this.album = {spotify: {id: "", name: "", images: [], artists: [], tracks: [], date: ""}, musicbrainz: {title: "", artists: [], date: ""}};
   this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;
     this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +this.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyTrack) => {this.title = data.spotify.name; this.musicBrainzSpotifyTrack = data;
       this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +this.musicBrainzSpotifyTrack.spotify.artists[0].id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyArtist) => {this.artist = data;
