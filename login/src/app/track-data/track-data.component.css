@@ -81,3 +81,11 @@
 	color: #DDD;
     text-decoration: none;
 }
+
+.work-card{
+	align: center;
+	background-color: black;
+	text-align: center;
+	height: 80%;
+	align-content: center;
+}
