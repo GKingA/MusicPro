@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { Observable } from "rxjs";
 import { Http, HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -6,7 +6,10 @@ import {AppComponent} from '../app.component';
 //import {ServiceModule} from '../service/service.module';
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import * as $ from 'jquery';
+import { DialogPlaylistComponent } from '../dialog-playlist/dialog-playlist.component';
+
 import {Router} from '@angular/router';
 // Helper interfaces
 
@@ -99,11 +102,13 @@ interface MusicBrainzSpotifyAlbum {
   musicbrainz: MusicBrainzRelease;
 }
 
+
 @NgModule({
     imports: [ BrowserModule, HttpModule ],
     providers: [],
     declarations: [ AppComponent ],
-    bootstrap: [ AppComponent ]
+    bootstrap: [ AppComponent ],
+    entryComponents: [DialogPlaylistComponent]
 })
 
 
@@ -119,16 +124,17 @@ export class UserComponent implements OnInit {
   playlistTracks: SpotifyTrack[];
   searchResults: SpotifyTrack[];
   musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
+  playlistName: string;
+  dialogRef: MatDialogRef<DialogPlaylistComponent>;
 
-  constructor(private http:HttpClient, private router: Router) { 
-    //document.getElementById("searchButton").addEventListener('click', this.search);
+  constructor(private http:HttpClient, private router: Router, public dialog: MatDialog) {
   }
   //constructor() { }
 
   ngOnInit() {
-     this.http.get<Playlist[]>("http://localhost:5000/home/playlists").subscribe((data: Playlist[]) => this.playlists = data);
+     this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
      this.playlistTracks = [];
-	 this.searchResults=[];
+	   this.searchResults=[];
   }
 
   showSpotifyTracks(tracks: SpotifyTrack[]) {
@@ -150,7 +156,7 @@ export class UserComponent implements OnInit {
   }
 
   onSelectPlaylist(id: string) {
-    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks");
+    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks", {withCredentials:true});
     observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
   }
 
@@ -161,16 +167,30 @@ export class UserComponent implements OnInit {
   }
 
   searchOnServer(text: string) {
-    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/search/" + text);
+    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/search/" + text, {withCredentials:true});
     observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
   }
 
   search() {
+    alert(this.checked);
 		if(document.getElementById("searchInput") != null){
       this.searchOnServer((<HTMLInputElement>document.getElementById("searchInput")).value);
 		}else {
 			alert("Invalid credentials");
 		}
-	}
-  
+  }
+
+  addPlaylist() {
+    this.dialogRef = this.dialog.open(DialogPlaylistComponent, {
+      data: {playlistName: this.playlistName}
+    });
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.playlistName = result;
+      if(this.playlistName != null) {
+        this.http.get("http://localhost:5000/home/playlists/new/"+this.playlistName, {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
+      }
+    });
+  }
 }

@@ -14,6 +14,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ServiceModule } from './service/service.module';
 import {Http, HttpModule} from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import {MatDialogModule} from '@angular/material';
+import { DialogPlaylistComponent } from './dialog-playlist/dialog-playlist.component';
 import { TrackDataComponent } from './track-data/track-data.component';
 
 @NgModule({
@@ -21,7 +23,8 @@ import { TrackDataComponent } from './track-data/track-data.component';
     AppComponent,
     LoginComponent,
     UserComponent,
-    TrackDataComponent,//,
+    DialogPlaylistComponent,
+    TrackDataComponent//,
 	  //ServiceModule
   ],
   imports: [
@@ -31,9 +34,11 @@ import { TrackDataComponent } from './track-data/track-data.component';
     FormsModule,
     AppRoutingModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ DialogPlaylistComponent ]
 })
 export class AppModule { }

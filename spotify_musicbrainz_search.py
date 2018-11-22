@@ -99,7 +99,8 @@ def search_artist(spotify, spotify_artist_id):
 
     music_brainz_artist_result = {
         "name": best_match["name"],
-        "disambiguation": best_match["disambiguation"]
+        "disambiguation": best_match["disambiguation"],
+        "tags": [""]
     }
     if 'tags' in best_match:
         music_brainz_artist_result["tags"] = [tag["name"] for tag in best_match["tags"]]
