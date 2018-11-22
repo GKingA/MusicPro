@@ -79,6 +79,7 @@ interface MusicBrainzArtist {
 interface MusicBrainzRelease {
   title: string;
   artists: string[];
+  date: string;
 }
 
 interface MusicBrainzTrack {

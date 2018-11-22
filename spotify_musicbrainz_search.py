@@ -176,16 +176,20 @@ def search_album(spotify, spotify_album_id):
                 best_match = result
         music_brainz_album_result = {
             "title": best_match["title"],
-            "artists": [""]
+            "artists": [""],
+            "date": ""
         }
         if "artist-credit" in best_match:
             music_brainz_album_result["artists"] = [a["artist"]["name"] for a in best_match["artist-credit"]]
         elif "artist_credit" in best_match:
             music_brainz_album_result["artists"] = [a["artist"]["name"] for a in best_match["artist_credit"]]
+        if "date" in best_match:
+            music_brainz_album_result["date"] = best_match["date"]
     else:
         music_brainz_album_result = {
             "title": "",
-            "artists": [""]
+            "artists": [""],
+            "date": ""
         }
     spotify_album_result = {
         "id": album_result["id"],

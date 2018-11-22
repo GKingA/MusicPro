@@ -51,11 +51,11 @@
 							<mat-grid-tile class="text-inside-grid"><a >Artist</a></mat-grid-tile>
 							<mat-grid-tile class="text-inside-grid"><a >{{artist.musicbrainz.name}}</a></mat-grid-tile>
 							<mat-grid-tile></mat-grid-tile>
-							<mat-grid-tile class="text-inside-grid"><a >{{artist.musicbrainz.genres}}</a></mat-grid-tile>
+							<mat-grid-tile class="text-inside-grid"><a >{{artist.musicbrainz.tags}}</a></mat-grid-tile>
 							<mat-grid-tile class="text-inside-grid"><a >Album</a></mat-grid-tile>
-							<mat-grid-tile>{{album.spotify.name}}</mat-grid-tile>
+							<mat-grid-tile>{{album.musicbrainz.title}}</mat-grid-tile>
 							<mat-grid-tile></mat-grid-tile>
-							<mat-grid-tile>YEAR</mat-grid-tile>
+							<mat-grid-tile>{{album.musicbrainz.date}}</mat-grid-tile>
 						</mat-grid-list>
 				</ng-container>
 			</ng-container>
