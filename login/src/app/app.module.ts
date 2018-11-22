@@ -16,13 +16,15 @@ import {Http, HttpModule} from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {MatDialogModule} from '@angular/material';
 import { DialogPlaylistComponent } from './dialog-playlist/dialog-playlist.component';
+import { TrackDataComponent } from './track-data/track-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     UserComponent,
-    DialogPlaylistComponent//,
+    DialogPlaylistComponent,
+    TrackDataComponent//,
 	  //ServiceModule
   ],
   imports: [

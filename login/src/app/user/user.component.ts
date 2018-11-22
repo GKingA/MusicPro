@@ -10,6 +10,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import * as $ from 'jquery';
 import { DialogPlaylistComponent } from '../dialog-playlist/dialog-playlist.component';
 
+import {Router} from '@angular/router';
 // Helper interfaces
 
 interface SpotifyAlbumTrack {
@@ -125,16 +126,15 @@ export class UserComponent implements OnInit {
   musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
   playlistName: string;
   dialogRef: MatDialogRef<DialogPlaylistComponent>;
-  checked: boolean;
 
-  constructor(private http:HttpClient, public dialog: MatDialog) { 
+  constructor(private http:HttpClient, private router: Router, public dialog: MatDialog) {
   }
   //constructor() { }
 
   ngOnInit() {
      this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
      this.playlistTracks = [];
-     this.checked = false;
+	   this.searchResults=[];
   }
 
   showSpotifyTracks(tracks: SpotifyTrack[]) {
@@ -157,18 +157,18 @@ export class UserComponent implements OnInit {
 
   onSelectPlaylist(id: string) {
     var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks", {withCredentials:true});
-    observer.subscribe((data: SpotifyTrack[]) => {this.playlistTracks = data; this.showSpotifyTracks(this.playlistTracks);});
+    observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
   }
 
-  onSelectSong(id: string) {
-    this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
-    var results = document.getElementById("results");
-    var slide = document.getElementById("slide");
+  onSelectSong(item: SpotifyTrack) {
+    //this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + item.id).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
+    this.router.navigate(["/track-data",item.id]);
+	
   }
 
   searchOnServer(text: string) {
     var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/search/" + text, {withCredentials:true});
-    observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data; this.showSpotifyTracks(this.searchResults);});
+    observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
   }
 
   search() {
