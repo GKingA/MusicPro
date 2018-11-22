@@ -128,6 +128,7 @@ export class TrackDataComponent implements OnInit {
 	showSpotify: boolean;
 	predictedTracks: SpotifyTrack[];
   dialogRef: MatDialogRef<DialogAddToPlaylistComponent>;
+  playlist: Playlist;
 
   constructor(private http:HttpClient, private route: ActivatedRoute, public dialog: MatDialog) { 
   }
@@ -171,7 +172,7 @@ export class TrackDataComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if(result != null) {
-        this.http.get("http://localhost:5000/home/playlists/"+result+"/add/"+id, {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
+        this.http.get("http://localhost:5000/home/playlists/"+result+"/add/"+id, {withCredentials:true}).subscribe((data: Playlist) => this.playlist = data);
       }
     });
   }

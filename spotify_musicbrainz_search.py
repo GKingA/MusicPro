@@ -80,15 +80,32 @@ def compare_songs(spotify_song, music_brainz_song):
 def search_artist(spotify, spotify_artist_id):
     artist_result = spotify.artist(spotify_artist_id)
     music_brainz_results = music_brainz.find_artist(artist=artist_result['name'])
-    best_match_ratio, best_match = 0, None
-    for result in music_brainz_results['artists']:
-        score = compare_artists(artist_result, result)
-        if score >= 0.98:
-            best_match = result
-            break
-        if score > best_match_ratio:
-            best_match_ratio = score
-            best_match = result
+    if music_brainz_results["count"] != 0:
+        best_match_ratio, best_match = 0, None
+        for result in music_brainz_results['artists']:
+            score = compare_artists(artist_result, result)
+            if score >= 0.98:
+                best_match = result
+                break
+            if score > best_match_ratio:
+                best_match_ratio = score
+                best_match = result
+
+        music_brainz_artist_result = {
+            "name": best_match["name"],
+            "disambiguation": "",
+            "tags": [""]
+        }
+        if 'tags' in best_match:
+            music_brainz_artist_result["tags"] = [tag["name"] for tag in best_match["tags"]]
+        if 'disambiguation' in best_match:
+            music_brainz_artist_result["disambiguation"] = best_match["disambiguation"]
+    else:
+        music_brainz_artist_result = {
+            "name": "",
+            "disambiguation": "",
+            "tags": [""]
+        }
 
     spotify_artist_result = {
         "id": artist_result["id"],
@@ -96,14 +113,6 @@ def search_artist(spotify, spotify_artist_id):
         "name": artist_result["name"],
         "genres": artist_result["genres"]
     }
-
-    music_brainz_artist_result = {
-        "name": best_match["name"],
-        "disambiguation": best_match["disambiguation"],
-        "tags": [""]
-    }
-    if 'tags' in best_match:
-        music_brainz_artist_result["tags"] = [tag["name"] for tag in best_match["tags"]]
 
     return spotify_artist_result, music_brainz_artist_result
 
@@ -113,28 +122,35 @@ def search_song(spotify, spotify_song_id):
     music_brainz_results = music_brainz.find_recording(artist=track_result['artists'][0]['name'],
                                                        recording=track_result['name'],
                                                        release=track_result['album']['name'])
-    best_match_ratio, best_match = 0, None
-    for result in music_brainz_results['recordings']:
-        compared = compare_songs(track_result, result)
-        if compared >= 0.98:
-            best_match = result
-            break
-        if compared > best_match_ratio:
-            best_match_ratio = compared
-            best_match = result
+    if music_brainz_results["count"] != 0:
+        best_match_ratio, best_match = 0, None
+        for result in music_brainz_results['recordings']:
+            compared = compare_songs(track_result, result)
+            if compared >= 0.98:
+                best_match = result
+                break
+            if compared > best_match_ratio:
+                best_match_ratio = compared
+                best_match = result
+        music_brainz_track_result = {
+            "title": best_match["title"],
+            "artists": [a["artist"]["name"] for a in best_match["artist-credit"]],
+            "releases": [{"artists": [a["artist"]["name"] for a in release["artist-credit"]], "title": release["title"]}
+                         for release in best_match["releases"]]
+            }
+    else:
+        music_brainz_track_result = {
+            "title": "",
+            "artists": [""],
+            "releases": [{"artists": "", "title": ""}]
+            }
     spotify_track_result = {
         "id": track_result["id"],
         "name": track_result["name"],
         "artists": [{"id": a["id"], "name": a["name"]} for a in track_result["artists"]],
         "album": {"id": track_result["album"]["id"], "images": track_result["album"]["images"],
                   "name": track_result["album"]["name"]}
-    }
-    music_brainz_track_result = {
-        "title": best_match["title"],
-        "artists": [a["artist"]["name"] for a in best_match["artist-credit"]],
-        "releases": [{"artists": [a["artist"]["name"] for a in release["artist-credit"]], "title": release["title"]}
-                     for release in best_match["releases"]]
-    }
+        }
     return spotify_track_result, music_brainz_track_result
 
 
@@ -143,15 +159,25 @@ def search_album(spotify, spotify_album_id):
     music_brainz_results = music_brainz.find_release(artist=album_result['artists'][0]['name'],
                                                      release=album_result['name'],
                                                      date=album_result["release_date"].split('_')[0])
-    best_match_ratio, best_match = 0, None
-    for result in music_brainz_results['releases']:
-        compared = compare_albums(album_result, result)
-        if compared >= 0.98:
-            best_match = result
-            break
-        if compared > best_match_ratio:
-            best_match_ratio = compared
-            best_match = result
+    if music_brainz_results["count"] != 0:
+        best_match_ratio, best_match = 0, None
+        for result in music_brainz_results['releases']:
+            compared = compare_albums(album_result, result)
+            if compared >= 0.98:
+                best_match = result
+                break
+            if compared > best_match_ratio:
+                best_match_ratio = compared
+                best_match = result
+        music_brainz_album_result = {
+            "title": best_match["title"],
+            "artists": [a["artist"]["name"] for a in best_match["artist-credit"]]
+        }
+    else:
+        music_brainz_album_result = {
+            "title": "",
+            "artists": [""]
+        }
     spotify_album_result = {
         "id": album_result["id"],
         "images": album_result["images"],
@@ -161,11 +187,6 @@ def search_album(spotify, spotify_album_id):
                                                                    for a in t["artists"]]}
                    for t in album_result["tracks"]["items"]]
     }
-
-    music_brainz_album_result = {
-        "title": best_match["title"],
-        "artists": [a["artist"]["name"] for a in best_match["artist-credit"]]
-    }
     return spotify_album_result, music_brainz_album_result
 
 
@@ -173,32 +194,35 @@ def search_work(spotify, spotify_song_id):
     track_result = spotify.track(spotify_song_id)
     music_brainz_results = music_brainz.find_work(artist=track_result['artists'][0]['name'],
                                                   work=track_result['name'])
-    best_match_ratio, best_match = 0, None
-    for result in music_brainz_results['works']:
-        has_relations = 1.0 if len([r for r in result["relations"] if "recording" in r]) != 0 else 0.5
-        compared = compare_strings(track_result['name'], result['title']) / len(track_result['name']) * has_relations
-        if compared > best_match_ratio:
-            best_match_ratio = compared
-            best_match = result
+    if music_brainz_results["count"] != 0:
+        best_match_ratio, best_match = 0, None
+        for result in music_brainz_results['works']:
+            has_relations = 1.0 if len([r for r in result["relations"] if "recording" in r]) != 0 else 0.5
+            compared = compare_strings(track_result['name'], result['title']) / len(track_result['name']) * has_relations
+            if compared > best_match_ratio:
+                best_match_ratio = compared
+                best_match = result
 
-    spotify_results = []
-    spotify_track_results = []
+        spotify_results = []
+        spotify_track_results = []
 
-    for mb in best_match['relations']:
-        if "recording" in mb and mb["recording"]["title"] != best_match["title"]:
-            new_spotify_results = search(spotify, mb['recording'])
-            for r in new_spotify_results:
-                if r not in spotify_results:
-                    spotify_results.append(r)
-                    spotify_track_results.append({
-                        "id": track_result["id"],
-                        "name": track_result["name"],
-                        "artists": [{"id": a["id"], "name": a["name"]} for a in track_result["artists"]],
-                        "album": {"id": track_result["album"]["id"], "images": track_result["album"]["images"],
-                                  "name": track_result["album"]["name"]}
-                    })
-        if len(spotify_results) == 10:
-            break
+        for mb in best_match['relations']:
+            if "recording" in mb and mb["recording"]["title"]:
+                new_spotify_results = search(spotify, mb['recording'])
+                for r in new_spotify_results:
+                    if r not in spotify_results:
+                        spotify_results.append(r)
+                        spotify_track_results.append({
+                            "id": track_result["id"],
+                            "name": track_result["name"],
+                            "artists": [{"id": a["id"], "name": a["name"]} for a in track_result["artists"]],
+                            "album": {"id": track_result["album"]["id"], "images": track_result["album"]["images"],
+                                      "name": track_result["album"]["name"]}
+                        })
+            if len(spotify_results) == 10:
+                break
+    else:
+        spotify_track_results = []
     return spotify_track_results
 
 
