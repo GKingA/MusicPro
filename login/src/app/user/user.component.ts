@@ -156,7 +156,7 @@ export class UserComponent implements OnInit {
 
   onSelectSong(item: SpotifyTrack) {
     //this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + item.id).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
-    this.router.navigate("/track-data/" +item.id);
+    this.router.navigate(["/track-data",item.id]);
 	
   }
 
