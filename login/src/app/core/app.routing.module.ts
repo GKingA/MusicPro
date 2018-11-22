@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'login', component: LoginComponent },
   {path : '', component : LoginComponent},
-{path: 'track-data', component: TrackDataComponent}
+{path: 'track-data/:id', component: TrackDataComponent}
 ];
 @NgModule({
   imports: [

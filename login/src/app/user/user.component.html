@@ -42,9 +42,9 @@
 					</mat-grid-list>
 					<mat-grid-list *ngFor="let item of searchResults" (click)="onSelectSong(item)" cols="3" rowHeight="8:1" class="grid-songs" style="text-align:left;color:white;">
 					
-					<mat-grid-tile class="text-inside-grid"><a href="#">{{item.name}} </a></mat-grid-tile>
-					  <mat-grid-tile class="text-inside-grid"><a href="#">{{item.artists[0].name}}</a></mat-grid-tile>
-					  <mat-grid-tile class="text-inside-grid"><a href="#">{{item.album.name}}</a></mat-grid-tile>
+					<mat-grid-tile class="text-inside-grid"><a >{{item.name}} </a></mat-grid-tile>
+					  <mat-grid-tile class="text-inside-grid"><a >{{item.artists[0].name}}</a></mat-grid-tile>
+					  <mat-grid-tile class="text-inside-grid"><a >{{item.album.name}}</a></mat-grid-tile>
 					
 					</mat-grid-list>
 				

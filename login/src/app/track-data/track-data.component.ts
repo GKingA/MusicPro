@@ -114,23 +114,30 @@ interface MusicBrainzSpotifyAlbum {
 
 
 export class TrackDataComponent implements OnInit {
+	id: string;
+	title: string;
   playlists: Playlist[];
   playlistTracks: SpotifyTrack[];
-  searchResults: SpotifyTrack[];
+  artist: MusicBrainzSpotifyArtist;
+  album: MusicBrainzSpotifyAlbum;
   musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 
   constructor(private http:HttpClient) { 
   }
 
   ngOnInit() {
+	 this.id = 0;//TODO ID-T KINYERNI
      this.http.get<Playlist[]>("http://localhost:5000/home/playlists").subscribe((data: Playlist[]) => this.playlists = data);
-	 this.searchResults=[];
+	 this.playlistTracks=[];
+	 this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +id).subscribe((data: MusicBrainzSpotifyTrack) => (this.title=data.spotify.name; this.musicBrainzSpotifyTrack=data;));
+	 this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +musicBrainzSpotifyTrack.spotify.artists[0].id).subscribe((data: MusicBrainzSpotifyArtist) => this.artist=data;);
+	 this.http.get<MusicBrainzSpotifyAlbum>("http://localhost:5000/home/album/" +musicBrainzSpotifyTrack.spotify.album.id).subscribe((data: MusicBrainzSpotifyAlbum) => this.album=data;);
   }
 
   onSelectPlaylist(id: string) {
     var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks");
-    observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
+    observer.subscribe((data: SpotifyTrack[]) => {this.playlistTracks = data;});
   }
 
-  
+ ////work :  "http://localhost:5000/home/work/ +id(songid) --> visszatérés: spotifytracklist
 }

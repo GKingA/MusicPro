@@ -7,7 +7,7 @@ import {AppComponent} from '../app.component';
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import * as $ from 'jquery';
-
+import {Router} from '@angular/router';
 // Helper interfaces
 
 interface SpotifyAlbumTrack {
@@ -120,7 +120,7 @@ export class UserComponent implements OnInit {
   searchResults: SpotifyTrack[];
   musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient, private router: Router) { 
     //document.getElementById("searchButton").addEventListener('click', this.search);
   }
   //constructor() { }
@@ -154,12 +154,10 @@ export class UserComponent implements OnInit {
     observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
   }
 
-  onSelectSong(id: string) {
-    this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + id).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
-    var results = document.getElementById("results");
-    var toggle = document.getElementById("toggle");
+  onSelectSong(item: SpotifyTrack) {
+    //this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + item.id).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
+    this.router.navigate("/track-data/" +item.id);
 	
-	//searchResults
   }
 
   searchOnServer(text: string) {
