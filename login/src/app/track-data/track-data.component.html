@@ -30,7 +30,7 @@
 			<ng-container class="spotify-component" *ngIf="showSpotify" >
 				<ng-container class="result-card">
 					<span style="font-size:18pt;color:white;align:center;">{{title}}</span>
-					<button mat-mini-fab (click)="addToPlaylist(musicBrainzSpotifyTrack.spotify.id)" style="font-size:18pt;color:white;" color="primary">+</button>
+					&nbsp;&nbsp;<button mat-mini-fab (click)="addToPlaylist(musicBrainzSpotifyTrack.spotify.id)" style="font-size:18pt;color:white;" color="primary">+</button>
 					
 						<mat-grid-list cols="2" rowHeight="10:1" class="grid-songs" style="text-align:left;color:white;" columnHeight="400px">
 							<mat-grid-tile class="text-inside-grid"><a >Artist</a></mat-grid-tile>
