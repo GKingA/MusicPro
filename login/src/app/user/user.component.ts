@@ -172,7 +172,6 @@ export class UserComponent implements OnInit {
   }
 
   search() {
-    alert(this.checked);
 		if(document.getElementById("searchInput") != null){
       this.searchOnServer((<HTMLInputElement>document.getElementById("searchInput")).value);
 		}else {
