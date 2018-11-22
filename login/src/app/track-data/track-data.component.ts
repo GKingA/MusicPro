@@ -176,5 +176,15 @@ export class TrackDataComponent implements OnInit {
       }
     });
   }
+  
+  onToggleChange(){
+	if(this.showSpotify==true)
+	{
+		  this.showSpotify=false;
+	}
+	 else {
+		 this.showSpotify=true;
+	}
+  }
  ////work :  "http://localhost:5000/home/work/ +id(songid) --> visszatérés: spotifytracklist
 }

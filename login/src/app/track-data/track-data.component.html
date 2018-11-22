@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
 	<span class="title-center" style="font-size:22pt;color:white;">MusicPro</span>
-	Spotify&nbsp;<mat-slide-toggle> MusicBrainz</mat-slide-toggle>
+	Spotify&nbsp;<mat-slide-toggle (change)=onToggleChange()> MusicBrainz</mat-slide-toggle>
 </mat-toolbar>
 
 
@@ -45,7 +45,7 @@
 				</ng-container>
 			</ng-container>
 			<ng-container class="musicbrainz-component" *ngIf="!showSpotify" >
-			
+						MUSICBRAIINZ
 			</ng-container>
 			</mat-card-actions>			
 		</mat-card>
@@ -54,7 +54,7 @@
 			
 			<button mat-raised-button color="primary" (click)="onWork()">Work</button>
 			<ng-container *ngIf="predictedTracks.length != 0" class="result-card">
-			<mat-grid-list *ngFor="let item of predictedTracks" cols="3" rowHeight="8:1" class="grid-songs" style="text-align:left;color:white;">
+			<mat-grid-list *ngFor="let item of predictedTracks" cols="3" rowHeight="6:1" class="grid-songs" style="text-align:left;color:white;">
 						<mat-grid-tile class="text-inside-grid"><a >{{item.name}} </a></mat-grid-tile>
 						<mat-grid-tile class="text-inside-grid"><a >{{item.artists[0].name}}</a></mat-grid-tile>
 						<mat-grid-tile class="text-inside-grid"><a >{{item.album.name}} 
