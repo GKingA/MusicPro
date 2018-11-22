@@ -21,7 +21,7 @@
     "@angular/material": "^7.0.4",
     "@angular/platform-browser": "~7.0.0",
     "@angular/platform-browser-dynamic": "~7.0.0",
-    "@angular/router": "~7.0.0",
+    "@angular/router": "^7.0.4",
     "@types/handlebars": "^4.0.39",
     "core-js": "^2.5.4",
     "express-handlebars": "^3.0.0",
