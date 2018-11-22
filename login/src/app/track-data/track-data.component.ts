@@ -106,47 +106,25 @@ interface MusicBrainzSpotifyAlbum {
     bootstrap: [ AppComponent ]
 })
 
-
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  selector: 'app-track-data',
+  templateUrl: './track-data.component.html',
+  styleUrls: ['./track-data.component.css']
 })
 
 
-export class UserComponent implements OnInit {
+export class TrackDataComponent implements OnInit {
   playlists: Playlist[];
   playlistTracks: SpotifyTrack[];
   searchResults: SpotifyTrack[];
   musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 
   constructor(private http:HttpClient) { 
-    //document.getElementById("searchButton").addEventListener('click', this.search);
   }
-  //constructor() { }
 
   ngOnInit() {
      this.http.get<Playlist[]>("http://localhost:5000/home/playlists").subscribe((data: Playlist[]) => this.playlists = data);
-     this.playlistTracks = [];
 	 this.searchResults=[];
-  }
-
-  showSpotifyTracks(tracks: SpotifyTrack[]) {
-    var results = document.getElementById("results");
-    var out: string = "<table class='result-table' style='font-size:14pt;color:white;align-self:center;'><tr><th>Title</th><th>Artists</th><th>Album</th></tr>";
-    for (let track of tracks) {
-      out += "<tr><td><a (click)=onSelectSong('"+track.id+"')>" + track.name + " </a></td><td> ";
-      for (let artist of track.artists) {
-        out += artist.name;
-        if (track.artists.indexOf(artist) != track.artists.length - 1) {
-          out += ", ";
-        }
-      }
-      out += "</td><td>" + track.album.name + "</td></tr>";
-    }
-
-    out += "</table>"
-    results.innerHTML = out;
   }
 
   onSelectPlaylist(id: string) {
@@ -154,25 +132,5 @@ export class UserComponent implements OnInit {
     observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
   }
 
-  onSelectSong(id: string) {
-    this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" + id).subscribe((data: MusicBrainzSpotifyTrack) => this.musicBrainzSpotifyTrack = data);
-    var results = document.getElementById("results");
-    var toggle = document.getElementById("toggle");
-	
-	//searchResults
-  }
-
-  searchOnServer(text: string) {
-    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/search/" + text);
-    observer.subscribe((data: SpotifyTrack[]) => {this.searchResults = data;});
-  }
-
-  search() {
-		if(document.getElementById("searchInput") != null){
-      this.searchOnServer((<HTMLInputElement>document.getElementById("searchInput")).value);
-		}else {
-			alert("Invalid credentials");
-		}
-	}
   
 }

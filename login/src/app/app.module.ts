@@ -14,12 +14,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ServiceModule } from './service/service.module';
 import {Http, HttpModule} from '@angular/http';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TrackDataComponent } from './track-data/track-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    UserComponent//,
+    UserComponent,
+    TrackDataComponent,//,
 	  //ServiceModule
   ],
   imports: [

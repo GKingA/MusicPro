@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+	<span class="title-center" style="font-size:22pt;color:white;">MusicPro</span>
+	Spotify&nbsp;<mat-slide-toggle> MusicBrainz</mat-slide-toggle>
+</mat-toolbar>
+
+
+<div class="w3-container">
+
+		<mat-card class="example-card">
+		<mat-card-header>
+			<mat-card-title class="title-playlist" style="font-size:18pt;color:white;">Your Playlists</mat-card-title>
+			&nbsp;&nbsp;<button mat-mini-fab style="font-size:18pt;color:white;" color="primary">+</button>
+
+		</mat-card-header>
+		<mat-card-actions>
+				<mat-list *ngFor="let playlist of playlists" (click)="onSelectPlaylist(playlist.id)">
+				  <mat-list-item>{{playlist.name}}</mat-list-item>
+				  <mat-divider></mat-divider>
+				</mat-list>
+		 </mat-card-actions>
+		</mat-card>
+
+		
+<mat-card class="data-card">
+	<mat-card class="result-card" style="align:center">		
+		<mat-card-content id="results"> RESULTS
+		</mat-card-content>	
+		<mat-card-actions>
+				
+		</mat-card-actions>	
+	</mat-card>
+</mat-card>
+
+</div>

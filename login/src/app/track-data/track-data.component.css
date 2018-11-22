@@ -21,28 +21,13 @@
 	
 }
 
-.search-card{
-	
-	align: right;
-	height:100%;
-	width: 85%;
-	background-color: black;
-	text-align: center;
-	
-	
-}
-
-.matInput{
-  width:800px !important;
-}
-
 .example-full-width{
 	align: center;
 	width: 80%;
 	
 }
 
-.result-card{
+.data-card{
 	align: center;
 	background-color: black;
 	text-align: center;
@@ -57,27 +42,4 @@
 .result-table{
 	align: center;
 	background-color: darkgray;
-}
-
-.grid-songs {
-	
-	width:80%;
-	text-align:left;
-	text-color:white;
-	align:center;
-	background-color: black;
-}
-
-.grid-songs mat-grid-tile
-{
-	display: inline-block;
-    
-	text-color:white;
-}
-
-.grid-songs a
-{
-    width:80%;
-	color: #DDD;
-    text-decoration: none;
 }
