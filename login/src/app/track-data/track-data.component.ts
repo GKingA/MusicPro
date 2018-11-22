@@ -10,6 +10,7 @@ import * as $ from 'jquery';
 import { ActivatedRoute, Router } from '@angular/router';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { DialogAddToPlaylistComponent } from '../dialog-add-to-playlist/dialog-add-to-playlist.component';
+import { DialogPlaylistComponent } from '../dialog-playlist/dialog-playlist.component';
 
 // Helper interfaces
 
@@ -127,8 +128,10 @@ export class TrackDataComponent implements OnInit {
 	musicBrainzSpotifyTrack: MusicBrainzSpotifyTrack;
 	showSpotify: boolean;
 	predictedTracks: SpotifyTrack[];
-  dialogRef: MatDialogRef<DialogAddToPlaylistComponent>;
+  addDialogRef: MatDialogRef<DialogAddToPlaylistComponent>;
+  newDialogRef: MatDialogRef<DialogPlaylistComponent>;
   playlist: Playlist;
+  playlistName: string;
 
   constructor(private http:HttpClient, private route: ActivatedRoute, public dialog: MatDialog) { 
   }
@@ -165,16 +168,31 @@ export class TrackDataComponent implements OnInit {
   }
 
   addToPlaylist(id: string) {
-    this.dialogRef = this.dialog.open(DialogAddToPlaylistComponent, {
+    this.addDialogRef = this.dialog.open(DialogAddToPlaylistComponent, {
       data: {id: this.playlists[0].id}
     });
 
-    this.dialogRef.afterClosed().subscribe(result => {
+    this.addDialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if(result != null) {
         this.http.get("http://localhost:5000/home/playlists/"+result+"/add/"+id, {withCredentials:true}).subscribe((data: Playlist) => this.playlist = data);
       }
     });
   }
+
+  addPlaylist() {
+    this.newDialogRef = this.dialog.open(DialogPlaylistComponent, {
+      data: {playlistName: this.playlistName}
+    });
+
+    this.newDialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.playlistName = result;
+      if(this.playlistName != null) {
+        this.http.get("http://localhost:5000/home/playlists/new/"+this.playlistName, {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
+      }
+    });
+  }
+
  ////work :  "http://localhost:5000/home/work/ +id(songid) --> visszatérés: spotifytracklist
 }
