@@ -126,15 +126,15 @@ export class TrackDataComponent implements OnInit {
 
   ngOnInit() {
 	 //TODO ID-T KINYERNI
-  this.http.get<Playlist[]>("http://localhost:5000/home/playlists").subscribe((data: Playlist[]) => {this.playlists = data;});
+  this.http.get<Playlist[]>("http://localhost:5000/home/playlists", {withCredentials:true}).subscribe((data: Playlist[]) => {this.playlists = data;});
 	 this.playlistTracks=[];
-	 this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +this.id).subscribe((data: MusicBrainzSpotifyTrack) => {this.title=data.spotify.name; this.musicBrainzSpotifyTrack=data;});
-	 this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +this.musicBrainzSpotifyTrack.spotify.artists[0].id).subscribe((data: MusicBrainzSpotifyArtist) => {this.artist=data;});
-  this.http.get<MusicBrainzSpotifyAlbum>("http://localhost:5000/home/album/" +this.musicBrainzSpotifyTrack.spotify.album.id).subscribe((data: MusicBrainzSpotifyAlbum) => {this.album=data;});
+	 this.http.get<MusicBrainzSpotifyTrack>("http://localhost:5000/home/song/" +this.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyTrack) => {this.title=data.spotify.name; this.musicBrainzSpotifyTrack=data;});
+	 this.http.get<MusicBrainzSpotifyArtist>("http://localhost:5000/home/artist/" +this.musicBrainzSpotifyTrack.spotify.artists[0].id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyArtist) => {this.artist=data;});
+  this.http.get<MusicBrainzSpotifyAlbum>("http://localhost:5000/home/album/" +this.musicBrainzSpotifyTrack.spotify.album.id, {withCredentials:true}).subscribe((data: MusicBrainzSpotifyAlbum) => {this.album=data;});
   }
 
   onSelectPlaylist(id: string) {
-    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks");
+    var observer = this.http.get<SpotifyTrack[]>("http://localhost:5000/home/playlists/" + id + "/tracks", {withCredentials:true});
     observer.subscribe((data: SpotifyTrack[]) => {this.playlistTracks = data;});
   }
 
