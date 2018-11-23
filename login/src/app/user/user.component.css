@@ -54,6 +54,14 @@
 	align: center;
 }
 
+.playlist-name {
+	cursor: pointer;
+}
+
+.result-data {
+	cursor: pointer;
+}
+
 .result-table{
 	align: center;
 	background-color: darkgray;
