@@ -104,6 +104,10 @@ interface MusicBrainzSpotifyAlbum {
   musicbrainz: MusicBrainzRelease;
 }
 
+interface LogoutStatus {
+  success: boolean;
+}
+
 
 @NgModule({
     imports: [ BrowserModule, HttpModule ],
@@ -192,6 +196,18 @@ export class UserComponent implements OnInit {
       if(this.playlistName != null) {
         this.http.get("http://localhost:5000/home/playlists/new/"+this.playlistName, {withCredentials:true}).subscribe((data: Playlist[]) => this.playlists = data);
       }
+    });
+  }
+
+  logout() {
+    var status: LogoutStatus;
+    this.http.get<LogoutStatus>("http://localhost:5000/logout", {withCredentials:true}).subscribe((data: LogoutStatus) => {status = data;
+    if (status.success = true) {
+      location.href = "http://localhost:4200";
+    }
+    else {
+      alert("Something went wrong, try again later!");
+    }
     });
   }
 }
