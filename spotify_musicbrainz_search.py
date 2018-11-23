@@ -19,8 +19,11 @@ def compare_dates(first, second):
 
 def compare_artists(spotify_artist, music_brainz_artist):
     if 'tags' in music_brainz_artist:
-        genre_score = len(set(spotify_artist['genres']) & set([name['name'] for name in music_brainz_artist['tags']])) \
-                     / len(spotify_artist['genres'])
+        if len(spotify_artist['genres']) != 0:
+            genre_score = len(set(spotify_artist['genres']) & set([name['name'] for name in music_brainz_artist['tags']])) \
+                         / len(spotify_artist['genres'])
+        else:
+            genre_score = 1.0
     else:
         genre_score = 0.0
     name_score = compare_strings(spotify_artist['name'], music_brainz_artist['name']) / len(spotify_artist['name'])
@@ -212,7 +215,8 @@ def search_work(spotify, spotify_song_id):
         best_match_ratio, best_match = 0, None
         for result in music_brainz_results['works']:
             has_relations = 1.0 if len([r for r in result["relations"] if "recording" in r]) != 0 else 0.5
-            compared = compare_strings(track_result['name'], result['title']) / len(track_result['name']) * has_relations
+            compared = compare_strings(track_result['name'], result['title']) / len(
+                track_result['name']) * has_relations
             if compared > best_match_ratio:
                 best_match_ratio = compared
                 best_match = result
@@ -227,11 +231,11 @@ def search_work(spotify, spotify_song_id):
                     if r not in spotify_results:
                         spotify_results.append(r)
                         spotify_track_results.append({
-                            "id": track_result["id"],
-                            "name": track_result["name"],
-                            "artists": [{"id": a["id"], "name": a["name"]} for a in track_result["artists"]],
-                            "album": {"id": track_result["album"]["id"], "images": track_result["album"]["images"],
-                                      "name": track_result["album"]["name"]}
+                            "id": r["id"],
+                            "name": r["name"],
+                            "artists": [{"id": a["id"], "name": a["name"]} for a in r["artists"]],
+                            "album": {"id": r["album"]["id"], "images": r["album"]["images"],
+                                      "name": r["album"]["name"]}
                         })
             if len(spotify_results) == 10:
                 break

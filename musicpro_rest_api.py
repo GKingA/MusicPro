@@ -186,7 +186,10 @@ def add_to_playlist(playlist_id, track_id):
 @app.route("/logout")
 def logout():
     session.pop('username', None)
-    return json.dumps({"status": "logged out"})
+    session.pop('token', None)
+    if 'username' not in session and 'token' not in session:
+        return json.dumps({'success': True})
+    return json.dumps({'success': False})
 
 
 if __name__ == '__main__':
