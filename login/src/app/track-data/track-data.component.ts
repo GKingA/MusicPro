@@ -172,7 +172,11 @@ export class TrackDataComponent implements OnInit {
   }
 
   onWork(){
-    this.http.get<SpotifyTrack[]>("http://localhost:5000/home/work/" + this.id,  {withCredentials:true}).subscribe((data: SpotifyTrack[]) => {this.predictedTracks = data;});
+    this.http.get<SpotifyTrack[]>("http://localhost:5000/home/work/" + this.id,  {withCredentials:true}).subscribe((data: SpotifyTrack[]) => {this.predictedTracks = data;
+    if(this.predictedTracks.length == 0) {
+      alert("No relevant work has been found in the MusicBrainz database.");
+    }
+  });
   }
 
   addToPlaylist(id: string) {
