@@ -207,6 +207,16 @@ def search_album(spotify, spotify_album_id):
     return spotify_album_result, music_brainz_album_result
 
 
+def search_substring(spotify, text):
+    split_text = text.split(' ')
+    result = []
+    i = 1
+    while len(result) == 0:
+        result = search(spotify, ' '.join(split_text[:-i]))
+        i += 1
+    return result
+
+
 def search_work(spotify, spotify_song_id):
     track_result = spotify.track(spotify_song_id)
     music_brainz_results = music_brainz.find_work(artist=track_result['artists'][0]['name'],
@@ -225,8 +235,8 @@ def search_work(spotify, spotify_song_id):
         spotify_track_results = []
 
         for mb in best_match['relations']:
-            if "recording" in mb and mb["recording"]["title"]:
-                new_spotify_results = search(spotify, mb['recording'])
+            if "recording" in mb:
+                new_spotify_results = search_substring(spotify, mb['recording']['title'])
                 for r in new_spotify_results:
                     if r not in spotify_results:
                         spotify_results.append(r)
