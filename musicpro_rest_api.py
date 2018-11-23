@@ -42,7 +42,6 @@ def login():
 
 @app.route("/home")
 def init():
-    print(session.get('username'))
     if request.args.get("code") is not None:
         code = request.args.get("code")
         spotify_oauth = oauth2.SpotifyOAuth(os.getenv('SPOTIPY_CLIENT_ID'), os.getenv('SPOTIPY_CLIENT_SECRET'),
