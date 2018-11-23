@@ -209,11 +209,15 @@ def search_album(spotify, spotify_album_id):
 
 def search_substring(spotify, text):
     split_text = text.split(' ')
+    if len(split_text) == 1:
+        return search(spotify, text)
     result = []
     i = 1
     while len(result) == 0:
         result = search(spotify, ' '.join(split_text[:-i]))
         i += 1
+        if i == len(split_text) - 1:
+            break
     return result
 
 
